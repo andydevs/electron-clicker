@@ -1,15 +1,17 @@
-import React, {useState} from 'react';
+
+import { useObservableNext } from './rxhooks';
+import { electronCount$, emitElectronSubject$ } from './rxstate';
 
 
 export function App() {
-    const [counter, setCounter] = useState(0)
+    const electronCount = useObservableNext(electronCount$)
 
     const handleClick = () => {
-        setCounter(counter + 1)
+        emitElectronSubject$.next(1)
     }
 
     return (<div>
-        <p>Electrons: {counter}</p>
+        <p>Electrons: {electronCount}</p>
         <p><button onClick={handleClick}>Electron</button></p>
     </div>)
 }
