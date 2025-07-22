@@ -1,4 +1,3 @@
-
 import { useObservableNext } from './rxhooks';
 import { electronCount$, emitElectronSubject$ } from './rxstate';
 
