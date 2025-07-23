@@ -1,3 +1,4 @@
+import { electronGunCount$, electronGunCost$, buyElectronGunSubject$ } from './electron-gun';
 import { useObservableNext } from './rxhooks';
 import { electronCount$, emitElectronSubject$ } from './rxstate';
 
@@ -7,11 +8,44 @@ function Number({ value }: { value: number }) {
     return <span>{numFormat}</span>
 }
 
+function ElectronButton() {
+    const handleElectronClick = () => emitElectronSubject$.next(1)
+    return (<button onClick={handleElectronClick}>Electron</button>)
+}
+
+function ElectronGunRow() {
+    const electronCount = useObservableNext(electronCount$)
+    const electronGunCount = useObservableNext(electronGunCount$)
+    const electronGunCost = useObservableNext(electronGunCost$)
+
+    const handleBuyGun = () =>
+        buyElectronGunSubject$.next(1)
+
+    return (
+        <tr>
+            <td>Electron Gun</td>
+            <td>{electronGunCount}</td>
+            <td><button 
+                disabled={electronCount < electronGunCost} 
+                onClick={handleBuyGun}>Buy</button> 
+                {electronGunCost}</td>
+        </tr>
+    )
+}
+
 export function App() {
     const electronCount = useObservableNext(electronCount$)
 
     return (<div>
         <p>Electrons: <Number value={electronCount}/></p>
-        <p><button onClick={() => emitElectronSubject$.next(1)}>Electron</button></p>
+        <p><ElectronButton/></p>
+        <div>
+            <p><b>Store</b></p>
+            <table>
+                <tbody>
+                    <ElectronGunRow/>
+                </tbody>
+            </table>
+        </div>
     </div>)
 }
