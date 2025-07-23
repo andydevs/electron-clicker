@@ -14,8 +14,7 @@ function ElectronButton() {
 }
 
 const electronGun = new ItemType({
-    interval: 1000,
-    multiplier: 1,
+    perSec: 1,
     initialCost: 14,
     costGrowth: 1.25
 })
@@ -35,8 +34,8 @@ function ElectronGunRow() {
             <td>{electronGunCount}</td>
             <td><button 
                 disabled={electronCount < electronGunCost} 
-                onClick={handleBuyGun}>Buy</button> 
-                {electronGunCost}</td>
+                onClick={handleBuyGun}>Buy {electronGunCost}</button> 
+            </td>
         </tr>
     )
 }

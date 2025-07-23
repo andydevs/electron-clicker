@@ -3,7 +3,6 @@ import {
     BehaviorSubject,
     Observable,
     Subscription,
-    interval,
     map,
     withLatestFrom,
     filter,
@@ -12,13 +11,12 @@ import {
 import { 
     accumulate,
     expScale,
-    getitem
+    frame$
 } from "./rxhelper"
 
 
 export type ItemTypeParams = {
-    interval: number,
-    multiplier: number,
+    perSec: number,
     initialCost: number,
     costGrowth: number
 }
@@ -27,24 +25,25 @@ export class ItemType {
     buySubject$: Subject<number>
     count$: Observable<number>
     cost$: Observable<number>
-
+    
+    private perSec: number
     private addSubject$: Subject<number>
     private emitter$: Observable<number>
     private emitterSubscription: Subscription
     private buySubscription: Subscription
 
     constructor(params: ItemTypeParams) {
+        this.perSec = params.perSec
         this.buySubject$ = new BehaviorSubject<number>(0)
         this.addSubject$ = new BehaviorSubject<number>(0)
         this.count$ = accumulate(this.addSubject$.asObservable())
         this.cost$ = map(expScale(params.initialCost, params.costGrowth))(this.count$)
-        this.emitter$ = interval(params.interval)
-            .pipe(
-                withLatestFrom(this.count$),
-                getitem(1),
-                skipWhile(count => count === 0),
-                map((count) => count*params.multiplier)
-            )
+        this.emitter$ = frame$.pipe(
+            withLatestFrom(this.count$),
+            // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+            skipWhile(([_, count]) => count === 0),
+            map(([dt, count]) => count*this.perSec*dt)
+        )
     }
 
     attach(emitElectronSubject$: Subject<number>, electronCount$: Observable<number>) {
