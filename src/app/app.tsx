@@ -13,28 +13,47 @@ function ElectronButton() {
     return (<button onClick={handleElectronClick}>Electron</button>)
 }
 
-const electronGun = new ItemType({
-    perSec: 1,
-    initialCost: 14,
-    costGrowth: 1.25
+const itemTypes = [
+    new ItemType({
+        name: 'Electron Gun',
+        perSec: 1,
+        initialCost: 14,
+        costGrowth: 1.25
+    }),
+    new ItemType({
+        name: 'Beta Decay Material',
+        perSec: 8,
+        initialCost: 72,
+        costGrowth: 1.50
+    }),
+    new ItemType({
+        name: 'Cathode Ray Tube',
+        perSec: 42,
+        initialCost: 1123,
+        costGrowth: 1.80
+    })
+]
+itemTypes.sort((a,b) => a.perSec - b.perSec)
+
+itemTypes.forEach(item => {
+    item.attach(emitElectronSubject$, electronCount$)
 })
-electronGun.attach(emitElectronSubject$, electronCount$)
 
-function ElectronGunRow() {
+function ItemRow({ item }: { item: ItemType }) {
     const electronCount = useObservableNext(electronCount$)
-    const electronGunCount = useObservableNext(electronGun.count$)
-    const electronGunCost = useObservableNext(electronGun.cost$)
+    const itemCount = useObservableNext(item.count$)
+    const itemCost = useObservableNext(item.cost$)
 
-    const handleBuyGun = () =>
-        electronGun.buySubject$.next(1)
+    const handleBuy = () =>
+        item.buySubject$.next(1)
 
     return (
         <tr>
-            <td>Electron Gun</td>
-            <td>{electronGunCount}</td>
+            <td>{item.name}</td>
+            <td>{itemCount}</td>
             <td><button 
-                disabled={electronCount < electronGunCost} 
-                onClick={handleBuyGun}>Buy {electronGunCost}</button> 
+                disabled={electronCount < itemCost} 
+                onClick={handleBuy}>Buy {itemCost}</button> 
             </td>
         </tr>
     )
@@ -50,7 +69,9 @@ export function App() {
             <p><b>Store</b></p>
             <table>
                 <tbody>
-                    <ElectronGunRow/>
+                    {itemTypes.map(item => (
+                        <ItemRow key={item.name} item={item}/>
+                    ))}
                 </tbody>
             </table>
         </div>

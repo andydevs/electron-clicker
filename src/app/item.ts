@@ -16,23 +16,26 @@ import {
 
 
 export type ItemTypeParams = {
+    name: string,
     perSec: number,
     initialCost: number,
     costGrowth: number
 }
 
 export class ItemType {
+    name: string
     buySubject$: Subject<number>
     count$: Observable<number>
     cost$: Observable<number>
+    perSec: number
     
-    private perSec: number
     private addSubject$: Subject<number>
     private emitter$: Observable<number>
     private emitterSubscription: Subscription
     private buySubscription: Subscription
 
     constructor(params: ItemTypeParams) {
+        this.name = params.name
         this.perSec = params.perSec
         this.buySubject$ = new BehaviorSubject<number>(0)
         this.addSubject$ = new BehaviorSubject<number>(0)
