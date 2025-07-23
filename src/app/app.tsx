@@ -1,10 +1,10 @@
-import { electronGunCount$, electronGunCost$, buyElectronGunSubject$ } from './electron-gun';
+import { ItemType } from './item'
 import { useObservableNext } from './rxhooks';
 import { electronCount$, emitElectronSubject$ } from './rxstate';
 
 const numFormatter = new Intl.NumberFormat("en-us", { notation: "compact" })
 function Number({ value }: { value: number }) {
-    const numFormat = numFormatter.format(value)
+    const numFormat = numFormatter.format(Math.round(value))
     return <span>{numFormat}</span>
 }
 
@@ -13,13 +13,21 @@ function ElectronButton() {
     return (<button onClick={handleElectronClick}>Electron</button>)
 }
 
+const electronGun = new ItemType({
+    interval: 1000,
+    multiplier: 1,
+    initialCost: 14,
+    costGrowth: 1.25
+})
+electronGun.attach(emitElectronSubject$, electronCount$)
+
 function ElectronGunRow() {
     const electronCount = useObservableNext(electronCount$)
-    const electronGunCount = useObservableNext(electronGunCount$)
-    const electronGunCost = useObservableNext(electronGunCost$)
+    const electronGunCount = useObservableNext(electronGun.count$)
+    const electronGunCost = useObservableNext(electronGun.cost$)
 
     const handleBuyGun = () =>
-        buyElectronGunSubject$.next(1)
+        electronGun.buySubject$.next(1)
 
     return (
         <tr>
