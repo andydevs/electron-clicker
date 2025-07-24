@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { AppState, AppDispatch } from "./store";
+import { useSelector, useDispatch } from "react-redux";
+import { increment } from "./electrons";
 
 const numFormatter = new Intl.NumberFormat("en-us", { notation: "compact" })
 function Number({ value }: { value: number }) {
@@ -7,10 +9,11 @@ function Number({ value }: { value: number }) {
 }
 
 export function App() {
-    const [electronCount, setElectronCount] = useState(0)
+    const electronCount = useSelector((s: AppState) => s.electronCount)
+    const dispatch = useDispatch<AppDispatch>()
 
     const handleElectronClick = () => 
-        setElectronCount(electronCount + 1)
+        dispatch(increment(1))
 
     return (<div>
         <p>Electrons: <Number value={electronCount}/></p>
