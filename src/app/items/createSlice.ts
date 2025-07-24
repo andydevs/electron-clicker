@@ -15,7 +15,7 @@ export function createItemSlice(params: ItemSliceParams) {
     // Slice
     const slice = createSlice({
         name: params.id,
-        initialState: 0,
+        initialState: params.initialCount || 0,
         reducers: {
             increment: state => state + 1
         }

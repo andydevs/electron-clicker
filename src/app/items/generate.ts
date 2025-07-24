@@ -1,21 +1,27 @@
 import { Epic } from 'redux-observable'
-import { filter, interval, map, scan, withLatestFrom } from "rxjs";
+import { bufferCount, filter, interval, map, scan, tap, withLatestFrom } from "rxjs";
 import { update as updateElectrons } from "../electrons";
 import { AppAction, RootState } from '../state';
 import { itemSlices } from './state';
 import { ItemName } from './config';
+import { unitFloorBasedOnState } from '../numberformat';
 
 const msPerSec = 1000
+const msPerInterval = 100
+
 type TickState = {
     publish: number,
     current: number
 }
 export const gameTickEpic: Epic<AppAction, AppAction, RootState> = (_action$, state$) => {
-    const msPerInterval = 100
-    const dt = msPerInterval / msPerSec
     return interval(msPerInterval).pipe(
+        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+        map((_): number => performance.now()),
+        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+        bufferCount(2, 1),
+        map(([last,now]): number => (now - last)/msPerSec),
         withLatestFrom(state$),
-        map(([,state]) => {
+        map(([dt,state]: [number, RootState]) => {
             const electronRate = Object.entries(itemSlices)
                 .map(([,slice]) => {
                     const number = state.items[slice.params.id as ItemName]
@@ -23,15 +29,16 @@ export const gameTickEpic: Epic<AppAction, AppAction, RootState> = (_action$, st
                 })
                 .reduce((total, electrons) => total + electrons, 0)
             const newElectrons = electronRate*dt
-            return [state.electronCount, newElectrons]
+            return [state.electronCount, newElectrons] as const
         }),
-        scan((ts: TickState, [,newElectrons]: [number, number]): TickState => {
+        scan((ts: TickState, [currElectrons, newElectrons]: [number, number]): TickState => {
             const next = { publish: 0, current: ts.current + newElectrons }
-            next.publish = Math.floor(next.current)
+            next.publish = unitFloorBasedOnState(currElectrons, next.current)
             next.current -= next.publish
             return next
-        }, { publish: 0, current: 0 }),
+        }, { publish: 0, current: 0 } as TickState),
+        tap((state) => console.log(state)),
         filter((state) => state.publish > 0),
-        map((state) => updateElectrons(state.publish))
+        map((state): AppAction => updateElectrons(state.publish))
     )
 }

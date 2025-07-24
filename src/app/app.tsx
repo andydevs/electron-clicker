@@ -4,12 +4,7 @@ import { itemSlices } from "./items/state";
 import { useSelector, useDispatch } from "react-redux";
 import { update } from "./electrons";
 import { useMemo } from "react";
-
-const numFormatter = new Intl.NumberFormat("en-us", { notation: "compact" })
-function Number({ value }: { value: number }) {
-    const numFormat = numFormatter.format(Math.round(value))
-    return <span>{numFormat}</span>
-}
+import { Number } from "./numberformat"
 
 export function ItemRow({ item }: { item: ItemSlice }) {
     const electronCount = useSelector((s: AppState) => s.electronCount)
@@ -26,7 +21,7 @@ export function ItemRow({ item }: { item: ItemSlice }) {
         <td><button 
             disabled={electronCount < nextCost}
             onClick={handleBuy}>
-                Buy {nextCost}
+                Buy <Number value={nextCost}/>
             </button>
         </td>
     </tr>)
