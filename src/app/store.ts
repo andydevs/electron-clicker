@@ -1,9 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { electronCountReducer } from "./electrons";
+import { gunReducer } from "./gun";
 
 export const store = configureStore({
     reducer: {
-        electronCount: electronCountReducer
+        electronCount: electronCountReducer,
+        items: combineReducers({
+            electronGun: gunReducer
+        })
     }
 })
 
