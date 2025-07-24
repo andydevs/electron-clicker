@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createEpicMiddleware, Epic } from "redux-observable";
 import { electronCountReducer, update as updateElectrons, ElectonCountAction } from "./electrons";
 import { gunReducer, electronGunParams, GunAction } from "./gun";
-import { interval, map, tap, withLatestFrom } from "rxjs";
+import { distinct, distinctUntilChanged, filter, interval, map, scan, tap, withLatestFrom } from "rxjs";
 
 type AppRootState = {
     electronCount: number,
@@ -16,19 +16,30 @@ const epicMiddleware = createEpicMiddleware<AppAction, AppAction, AppRootState>(
 
 const msPerSec = 1000
 
+type TickState = {
+    publish: number,
+    current: number
+}
+
 const gameTickEpic: Epic<AppAction, AppAction, AppState> = (_action$, state$) => {
-    const msPerInterval = 1000
+    const msPerInterval = 100
     const dt = msPerInterval / msPerSec
     return interval(msPerInterval).pipe(
         withLatestFrom(state$),
         map(([, state]) => {
             const nGuns = state.items.electronGun
             const electronsFromGun = nGuns*electronGunParams.electronsPerSec
-            const totalElectrons = electronsFromGun*dt
-            return totalElectrons
+            const newElectrons = electronsFromGun*dt
+            return [state.electronCount, newElectrons]
         }),
-        map((electrons) => updateElectrons(electrons)),
-        tap((act) => { console.log('Generated from tick:', act)})
+        scan((ts: TickState, [,newElectrons]: [number, number]): TickState => {
+            const next = { publish: 0, current: ts.current + newElectrons }
+            next.publish = Math.floor(next.current)
+            next.current -= next.publish
+            return next
+        }, { publish: 0, current: 0 }),
+        filter((state) => state.publish > 0),
+        map((state) => updateElectrons(state.publish))
     )
 }
 
