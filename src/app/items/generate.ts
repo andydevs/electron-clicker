@@ -15,9 +15,7 @@ type TickState = {
 }
 export const gameTickEpic: Epic<AppAction, AppAction, RootState> = (_action$, state$) => {
     return interval(msPerInterval).pipe(
-        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-        map((_): number => performance.now()),
-        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+        map((_interval): number => performance.now()),
         bufferCount(2, 1),
         map(([last,now]): number => (now - last)/msPerSec),
         withLatestFrom(state$),

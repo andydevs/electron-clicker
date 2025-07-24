@@ -3,15 +3,8 @@ import { ItemParams, ItemName, itemConfig } from './config';
 import { createItemSlice, ItemSlice } from './createSlice';
 
 
-type ItemSlicesType = {
-    // eslint-disable-next-line no-unused-vars
-    [_K in ItemName]: ItemSlice
-}
-
-type ItemReducersType = {
-    // eslint-disable-next-line no-unused-vars
-    [_K in ItemName]: Reducer<number>
-}
+type ItemSlicesType = { [_K in ItemName]: ItemSlice }
+type ItemReducersType = { [_K in ItemName]: Reducer<number> }
 
 export type ItemAction = ReturnType<ItemSlicesType[ItemName]['slice']['actions']['increment']>
 

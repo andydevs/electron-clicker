@@ -17,7 +17,6 @@ export type ItemParams = {
 }
 
 type ItemConfigType = {
-    // eslint-disable-next-line no-unused-vars
     [_K in keyof ItemState]: ItemParams
 }
 
