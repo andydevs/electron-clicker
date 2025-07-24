@@ -1,14 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { update as updateElectrons } from "./electrons";
-import { RootState } from "./state";
-import { AppDispatch } from "./store";
+import { update as updateElectrons } from "../electrons";
+import { ItemParams, ItemName } from "./config";
+import { AppState, AppDispatch } from "../store";
 
-export type ItemSliceParams = {
-    name: keyof RootState['items'],
-    displayName: string,
-    initialCost: number,
-    costGrowth: number,
-    electronsPerSec: number
+export type ItemSliceParams = ItemParams & {
+    id: ItemName
 }
 
 export function createItemSlice(params: ItemSliceParams) {
@@ -18,7 +14,7 @@ export function createItemSlice(params: ItemSliceParams) {
 
     // Slice
     const slice = createSlice({
-        name: params.name,
+        name: params.id,
         initialState: 0,
         reducers: {
             increment: state => state + 1
@@ -26,10 +22,10 @@ export function createItemSlice(params: ItemSliceParams) {
     })
 
     // Attempt buy function
-    function attemptBuy(dispatch: AppDispatch, getState: () => RootState) {
+    function attemptBuy(dispatch: AppDispatch, getState: () => AppState) {
         const state = getState()
         const nElectrons = state.electronCount
-        const number = state.items[params.name]
+        const number = state.items[params.id]
         const cost = nextCost(number)
     
         if (nElectrons < cost) {
@@ -53,4 +49,4 @@ export function createItemSlice(params: ItemSliceParams) {
     }
 }
 
-export type ItemType = ReturnType<typeof createItemSlice>
+export type ItemSlice = ReturnType<typeof createItemSlice>

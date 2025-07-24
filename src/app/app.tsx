@@ -1,5 +1,6 @@
-import { AppState, AppDispatch, items } from "./store";
-import { ItemType } from "./item";
+import { AppState, AppDispatch } from "./store";
+import { ItemSlice } from "./items/createSlice";
+import { itemSlices } from "./items/state";
 import { useSelector, useDispatch } from "react-redux";
 import { update } from "./electrons";
 import { useMemo } from "react";
@@ -10,9 +11,9 @@ function Number({ value }: { value: number }) {
     return <span>{numFormat}</span>
 }
 
-export function ItemRow({ item }: { item: ItemType }) {
+export function ItemRow({ item }: { item: ItemSlice }) {
     const electronCount = useSelector((s: AppState) => s.electronCount)
-    const count = useSelector((s: AppState) => s.items[item.params.name])
+    const count = useSelector((s: AppState) => s.items[item.params.id])
     const nextCost = useMemo(() => item.nextCost(count), [count])
     const dispatch = useDispatch<AppDispatch>()
 
@@ -45,8 +46,8 @@ export function App() {
             <p><b>Store</b></p>
             <table>
                 <tbody>
-                    {Object.values(items).map((item) => (
-                        <ItemRow key={item.params.name} item={item}/>
+                    {Object.values(itemSlices).map((item) => (
+                        <ItemRow key={item.params.id} item={item}/>
                     ))}
                 </tbody>
             </table>
