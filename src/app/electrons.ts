@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export const electronCount = createSlice({
+export const electronCountSlice = createSlice({
     name: 'electronCount',
     initialState: 0,
     reducers: {
-        increment: (electrons: number, action: PayloadAction<number>) => {
+        update: (electrons: number, action: PayloadAction<number>) => {
             return electrons + action.payload
         }
     }
 })
 
-export const { increment } = electronCount.actions
-export const electronCountReducer = electronCount.reducer
+export const { update } = electronCountSlice.actions
+export const electronCountReducer = electronCountSlice.reducer
+export type ElectonCountAction = ReturnType<typeof electronCountSlice.actions[keyof typeof electronCountSlice.actions]>

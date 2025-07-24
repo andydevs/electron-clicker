@@ -1,16 +1,24 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { increment as updateElectrons } from "./electrons";
+import { createSlice } from "@reduxjs/toolkit";
+import { update as updateElectrons } from "./electrons";
 import { AppDispatch, AppState } from "./store";
 
 
+export const electronGunParams = {
+    initialCost: 14,
+    costGrowth: 1.25,
+    electronsPerSec: 1
+}
+
+
 export const nextGunCost = (state: number): number => 
-    Math.round(14 * Math.pow(1.25, state))
+    Math.round(electronGunParams.initialCost 
+        * Math.pow(electronGunParams.costGrowth, state))
 
 export const gunSlice = createSlice({
     name: 'electronGun',
     initialState: 0,
     reducers: {
-        increment: (state, action: PayloadAction<number>) => state + action.payload
+        increment: state => state + 1
     }
 })
 
@@ -29,7 +37,8 @@ export function attemptBuyGun(dispatch:AppDispatch, getState: () => AppState) {
 
     // If we have enough, let's go!
     dispatch(updateElectrons(-gunCost))
-    dispatch(gunSlice.actions.increment(1))
+    dispatch(gunSlice.actions.increment())
 }
 
 export const gunReducer = gunSlice.reducer
+export type GunAction = ReturnType<typeof gunSlice.actions[keyof typeof gunSlice.actions]>

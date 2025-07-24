@@ -1,6 +1,6 @@
 import { AppState, AppDispatch } from "./store";
 import { useSelector, useDispatch } from "react-redux";
-import { increment } from "./electrons";
+import { update } from "./electrons";
 import { attemptBuyGun, nextGunCost } from "./gun";
 import { useMemo } from "react";
 
@@ -17,7 +17,7 @@ export function App() {
     const dispatch = useDispatch<AppDispatch>()
 
     const handleElectronClick = () => 
-        dispatch(increment(1))
+        dispatch(update(1))
 
     const handleBuyGun = () =>
         dispatch(attemptBuyGun)
