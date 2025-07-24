@@ -2,15 +2,17 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createEpicMiddleware, Epic } from "redux-observable";
 import { electronCountReducer, update as updateElectrons, ElectonCountAction } from "./electrons";
 import { gunReducer, electronGunParams, GunAction } from "./gun";
-import { distinct, distinctUntilChanged, filter, interval, map, scan, tap, withLatestFrom } from "rxjs";
+import { betaDecayReducer, betaDecayParams, BetaDecayAction } from "./betadecaymaterial";
+import { filter, interval, map, scan, withLatestFrom } from "rxjs";
 
 type AppRootState = {
     electronCount: number,
     items: {
-        electronGun: number
+        electronGun: number,
+        betaDecayMaterial: number,
     }
 }
-type AppAction = ElectonCountAction | GunAction
+type AppAction = ElectonCountAction | GunAction | BetaDecayAction
 
 const epicMiddleware = createEpicMiddleware<AppAction, AppAction, AppRootState>()
 
@@ -47,7 +49,8 @@ export const store = configureStore({
     reducer: {
         electronCount: electronCountReducer,
         items: combineReducers({
-            electronGun: gunReducer
+            electronGun: gunReducer,
+            betaDecayMaterial: betaDecayReducer
         })
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(epicMiddleware)
