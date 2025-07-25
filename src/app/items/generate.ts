@@ -1,5 +1,5 @@
 import { Epic } from 'redux-observable'
-import { bufferCount, filter, interval, map, scan, tap, withLatestFrom } from "rxjs";
+import { bufferCount, filter, interval, map, scan, withLatestFrom } from "rxjs";
 import { update as updateElectrons } from "../electrons";
 import { AppAction, RootState } from '../state';
 import { itemSlices } from './state';
@@ -35,7 +35,6 @@ export const gameTickEpic: Epic<AppAction, AppAction, RootState> = (_action$, st
             next.current -= next.publish
             return next
         }, { publish: 0, current: 0 } as TickState),
-        tap((state) => console.log(state)),
         filter((state) => state.publish > 0),
         map((state): AppAction => updateElectrons(state.publish))
     )
