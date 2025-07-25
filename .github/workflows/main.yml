@@ -1,0 +1,15 @@
+name: Main
+on:
+  workflow_dispatch:
+
+jobs:
+  publish_mac:
+    name: Publish to Mac
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+      - name: Build and Release with Electron Forge
+        uses: yinxulai/actions-electron-forge@0.05
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
