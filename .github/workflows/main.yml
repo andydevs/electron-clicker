@@ -13,7 +13,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3.9.1
         with:
-          node-version: 23
+          node-version: 20
         
       - name: Build and Release with Electron Forge
         uses: yinxulai/actions-electron-forge@0.05
