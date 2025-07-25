@@ -63,7 +63,8 @@ const config: ForgeConfig = {
           owner: 'andydevs',
           name: 'electron-clicker'
         },
-        prerelease: true
+        prerelease: true,
+        draft: true
       }
     }
   ]
