@@ -3,23 +3,40 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish_mac:
-    name: Publish to Mac
-    runs-on: macos-latest
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+      - name: Setup Node
+        uses: actions/setup-node@v3.9.1
+        with:
+          node-version: 20
+      - name: Install Dependencies
+        run: npm install
+      - name: Run Linter
+        run: npm run lint
+
+  publish:
+    name: Publish
+    needs: lint
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-15]
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
-        
       - name: Setup Node
         uses: actions/setup-node@v3.9.1
         with:
           node-version: 20
-        
+      - name: Install Dependencies
+        run: npm install
       - name: Build and Release with Electron Forge
-        run: |
-          npm install
-          npm run publish
+        run: npm run publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
