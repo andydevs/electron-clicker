@@ -1,8 +1,8 @@
 {
   "name": "electron-clicker",
-  "productName": "electron-clicker",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "productName": "Electron Clicker",
+  "version": "0.1.0",
+  "description": "A clicker game in Electron about electrons",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",

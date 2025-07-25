@@ -1,4 +1,4 @@
-electron-clicker
+Electron Clicker
 ==========================================
 
-Clicker game, in electron
+Clicker game, in Electron
