@@ -14,6 +14,8 @@ jobs:
         uses: actions/setup-node@v3.9.1
         with:
           node-version: 20
+      - name: Verify Node Setup
+        run: node --version
         
       - name: Build and Release with Electron Forge
         uses: yinxulai/actions-electron-forge@0.05
