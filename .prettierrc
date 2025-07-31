@@ -5,7 +5,7 @@
     "trailingComma": "none",
     "arrowParens": "always",
     "bracketSpacing": true,
-    "bracketSameLine": false,
+    "bracketSameLine": true,
     "singleQuote": true,
     "singleAttributePerLine": true
 }
