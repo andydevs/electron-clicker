@@ -4,6 +4,18 @@ import { update } from './domain/electrons'
 import { Number } from './components/number'
 import { ItemStore } from './components/item-store'
 
+function AppFooter() {
+    return (
+        <div className="centering-container app-footer-container">
+            <div className="app-footer">
+                <div>
+                    <i>Andydevs did this...</i>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 export function App() {
     const electronCount = useSelector((s: AppState) => s.electronCount)
     const dispatch = useDispatch<AppDispatch>()
@@ -12,7 +24,7 @@ export function App() {
 
     return (
         <div className="app-container">
-            <div className="stats-container">
+            <div className="centering-container">
                 <div className="electron-count">
                     <Number value={electronCount} /> Electrons
                 </div>
@@ -25,6 +37,7 @@ export function App() {
                 </button>
             </div>
             <ItemStore />
+            <AppFooter />
         </div>
     )
 }
