@@ -20,7 +20,7 @@ const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         width: 600,
-        height: 1000,
+        height: 800,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         }
@@ -36,7 +36,7 @@ const createWindow = () => {
     // Open the DevTools.
     if (__OPEN_DEVTOOLS__) {
         mainWindow.webContents.openDevTools({
-            mode: 'bottom'
+            mode: 'undocked'
         })
     }
 }

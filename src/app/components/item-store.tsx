@@ -14,11 +14,12 @@ function ItemRow({ item }: { item: ItemSlice }) {
     const handleBuy = () => dispatch(item.attemptBuy)
 
     return (
-        <tr>
-            <td>{item.params.displayName}</td>
-            <td>{count}</td>
-            <td>
+        <tr className="item-row">
+            <td className="item-cell-display-name">{item.params.displayName}</td>
+            <td className="item-cell-count">{count}</td>
+            <td className="item-cell-buy">
                 <button
+                    className="item-buy-button"
                     disabled={electronCount < nextCost}
                     onClick={handleBuy}>
                     Buy <Number value={nextCost} />
@@ -30,18 +31,20 @@ function ItemRow({ item }: { item: ItemSlice }) {
 
 export function ItemStore() {
     return (
-        <div>
-            <h2>Items</h2>
-            <table>
-                <tbody>
-                    {Object.values(itemSlices).map((item) => (
-                        <ItemRow
-                            key={item.params.id}
-                            item={item}
-                        />
-                    ))}
-                </tbody>
-            </table>
+        <div className="item-store-container">
+            <h2 className="item-store-title">Items</h2>
+            <div className="item-store-table-container">
+                <table className="item-store-table">
+                    <tbody>
+                        {Object.values(itemSlices).map((item) => (
+                            <ItemRow
+                                key={item.params.id}
+                                item={item}
+                            />
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }

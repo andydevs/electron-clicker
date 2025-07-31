@@ -1,7 +1,56 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
-  margin: auto;
-  max-width: 38rem;
-  padding: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    height: 100vh;
+    max-height: 100vh;
+    margin: 0;
+}
+
+#root {
+    height: 100%;
+}
+
+.app-container {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr 1fr;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    place-items: center;
+}
+
+.electron-count {
+    font-size: 18pt;
+    margin: 4pt;
+}
+
+.electron-button-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    place-items: center;
+}
+
+.electron-button {
+    font-size: 20pt;
+    font-weight: bold;
+}
+
+.item-store-container {
+    margin: 8pt;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+}
+
+.item-store-table-container {
+    overflow-y: scroll;
+}
+
+.item-store-table {
+    width: 100%;
 }

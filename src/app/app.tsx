@@ -11,12 +11,18 @@ export function App() {
     const handleElectronClick = () => dispatch(update(1))
 
     return (
-        <div>
-            <div>
-                Electrons: <Number value={electronCount} />
+        <div className="app-container">
+            <div className="stats-container">
+                <div className="electron-count">
+                    <Number value={electronCount} /> Electrons
+                </div>
             </div>
-            <div>
-                <button onClick={handleElectronClick}>Electron</button>
+            <div className="electron-button-container">
+                <button
+                    className="electron-button"
+                    onClick={handleElectronClick}>
+                    Electron
+                </button>
             </div>
             <ItemStore />
         </div>
