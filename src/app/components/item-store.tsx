@@ -15,8 +15,11 @@ function ItemRow({ item }: { item: ItemSlice }) {
 
     return (
         <tr className="item-row">
-            <td className="item-cell-display-name">{item.params.displayName}</td>
             <td className="item-cell-count">{count}</td>
+            <td className="item-cell-display-name">{item.params.displayName}</td>
+            <td className="item-cell-electrons-per-sec">
+                <Number value={item.params.electronsPerSec} /> electrons/sec each
+            </td>
             <td className="item-cell-buy">
                 <button
                     className="item-buy-button"
