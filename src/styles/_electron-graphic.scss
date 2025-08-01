@@ -1,0 +1,42 @@
+@keyframes angle-wobble {
+    0% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(5deg);
+    }
+}
+
+.electron-button-graphic {
+    flex-shrink: 0;
+    height: 400px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    place-items: center;
+    position: relative;
+}
+
+.electron-button-tooltip {
+    position: absolute;
+    bottom: 30px;
+    visibility: hidden;
+    &.visible {
+        visibility: visible;
+    }
+}
+
+.electron-button {
+    border: none;
+    background: none;
+    box-shadow: none;
+
+    > svg {
+        animation: angle-wobble 1s ease-in-out 0s infinite alternate;
+        transition: width 0.5s ease-out, height 0.5s ease-out;
+        width: 200px;
+    }
+    &:hover svg {
+        width: 250px;
+    }
+}

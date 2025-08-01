@@ -22,6 +22,7 @@
                 "varsIgnorePattern": "^_",
                 "destructuredArrayIgnorePattern": "^_"
             }
-        ]
+        ],
+        "@typescript-eslint/no-empty-function": "warn"
     }
 }
