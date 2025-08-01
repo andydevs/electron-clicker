@@ -26,5 +26,5 @@
  * ```
  */
 
-import './index.css';
+import './styles/index.sass'
 import './app/index.tsx'

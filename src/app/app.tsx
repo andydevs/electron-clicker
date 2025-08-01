@@ -24,12 +24,12 @@ export function App() {
 
     return (
         <div className="app-container">
-            <div className="centering-container">
+            <div className="stats-container centering-container">
                 <div className="electron-count">
                     <Number value={electronCount} /> Electrons
                 </div>
             </div>
-            <div className="electron-button-container">
+            <div className="electron-button-graphic">
                 <button
                     className="electron-button"
                     onClick={handleElectronClick}>
