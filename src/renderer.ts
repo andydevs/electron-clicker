@@ -25,6 +25,6 @@
  *  });
  * ```
  */
-
+/// <reference types="./types/svg.d.ts"/>
 import './styles/index.sass'
 import './app/index.tsx'
