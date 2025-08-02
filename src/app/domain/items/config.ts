@@ -25,30 +25,30 @@ export const itemConfig: ItemConfigType = {
         displayName: 'Electron Gun',
         initialCost: 14,
         costGrowth: 1.25,
-        electronsPerSec: 1
+        electronsPerSec: 0.1
     },
     betaDecayMaterial: {
-        displayName: 'Beta Decay',
+        displayName: 'Beta Decay Material',
         initialCost: 72,
         costGrowth: 1.50,
-        electronsPerSec: 8
+        electronsPerSec: 1
     },
     cathodeRayTube: {
         displayName: 'Cathode Ray Tube',
         initialCost: 138,
         costGrowth: 1.85,
-        electronsPerSec: 42
+        electronsPerSec: 8
     },
     particleAccelerator: {
         displayName: 'Particle Accelerator',
         initialCost: 512,
         costGrowth: 1.92,
-        electronsPerSec: 138
+        electronsPerSec: 42
     },
     magnetosphere: {
         displayName: 'Magnetosphere',
         initialCost: 1020,
         costGrowth: 2.00,
-        electronsPerSec: 512
+        electronsPerSec: 128
     }
 }
