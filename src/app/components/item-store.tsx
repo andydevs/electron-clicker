@@ -10,21 +10,29 @@ function ItemRow({ item }: { item: ItemSlice }) {
     const electronCount = useSelector((s: AppState) => s.electronCount)
     const count = useSelector((s: AppState) => s.items[item.params.id])
     const nextCost = useMemo(() => item.nextCost(count), [count])
+    const totalGenerating = useMemo(() => count * item.params.electronsPerSec, [count])
     const dispatch = useDispatch<AppDispatch>()
 
     const handleBuy = () => dispatch(item.attemptBuy)
 
     return (
-        <tr className="item-row">
-            <td className="item-count">{count}</td>
-            <td className="item-display-name">{item.params.displayName}</td>
-            <td className="item-electrons-per-sec">
-                <Number value={item.params.electronsPerSec} /> electrons/sec each
-            </td>
-            <td className="item-cost">
+        <div className="item-row">
+            <div className="item-cell item-count">{count}</div>
+            <div className="item-cell item-display-name">{item.params.displayName}</div>
+            <div className="item-cell item-info">
+                Generates <Number value={item.params.electronsPerSec} />
+                /s each{', '}
+                Currently{' '}
+                <Number
+                    bold
+                    value={totalGenerating}
+                />
+                /s total
+            </div>
+            <div className="item-cell item-cost">
                 <Number value={nextCost} />
-            </td>
-            <td className="item-buy">
+            </div>
+            <div className="item-cell item-buy">
                 <Button
                     expand
                     size="sm"
@@ -32,8 +40,8 @@ function ItemRow({ item }: { item: ItemSlice }) {
                     onClick={handleBuy}>
                     Buy
                 </Button>
-            </td>
-        </tr>
+            </div>
+        </div>
     )
 }
 
@@ -42,23 +50,19 @@ export function ItemStore() {
         <div className="item-store-container">
             <h2 className="item-store-title">Items</h2>
             <div className="item-store-table-container">
-                <table className="item-store-table">
-                    <thead className="item-store-table-head">
-                        <tr className="item-store-header-row">
-                            <th colSpan={2}>Item</th>
-                            <th>Generating</th>
-                            <th colSpan={2}>Buy</th>
-                        </tr>
-                    </thead>
-                    <tbody className="item-store-table-body">
-                        {Object.values(itemSlices).map((item) => (
-                            <ItemRow
-                                key={item.params.id}
-                                item={item}
-                            />
-                        ))}
-                    </tbody>
-                </table>
+                <div className="item-store-table">
+                    <div className="item-header-row">
+                        <div className="item-header-cell item-header-item">Item</div>
+                        <div className="item-header-cell item-header-info">Info</div>
+                        <div className="item-header-cell item-header-buy">Buy</div>
+                    </div>
+                    {Object.values(itemSlices).map((item) => (
+                        <ItemRow
+                            key={item.params.id}
+                            item={item}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     )
