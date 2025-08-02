@@ -1,0 +1,19 @@
+{
+    "tabWidth": 4,
+    "semi": false,
+    "printWidth": 120,
+    "trailingComma": "none",
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "bracketSameLine": true,
+    "singleQuote": true,
+    "singleAttributePerLine": true,
+    "overrides": [
+        {
+            "files": ["*.scss", "*.sass"],
+            "options": {
+                "singleQuote": false
+            }
+        }
+    ]
+}
