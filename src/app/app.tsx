@@ -1,6 +1,5 @@
 import { ElectronGraphic } from './components/electron'
 import { ElectronStats } from './components/stats'
-import { AppFooter } from './components/footer'
 import { ItemStore } from './components/item-store'
 
 export function App() {
@@ -9,7 +8,6 @@ export function App() {
             <ElectronStats />
             <ElectronGraphic />
             <ItemStore />
-            <AppFooter />
         </div>
     )
 }
