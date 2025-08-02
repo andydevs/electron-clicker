@@ -28,7 +28,7 @@ export const itemConfig: ItemConfigType = {
         electronsPerSec: 0.1
     },
     betaDecayMaterial: {
-        displayName: 'Beta Decay',
+        displayName: 'Beta Decay Material',
         initialCost: 72,
         costGrowth: 1.50,
         electronsPerSec: 1
