@@ -1,16 +1,15 @@
 {
     "compilerOptions": {
-        "types": ["vite-plugin-svgr/client"],
+        "types": ["vite-plugin-svgr/client", "vite/client"],
         "target": "ESNext",
-        "module": "commonjs",
+        "module": "ESNext",
         "allowJs": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
         "noImplicitAny": true,
         "sourceMap": true,
-        "baseUrl": ".",
         "outDir": "dist",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "resolveJsonModule": true,
         "jsx": "react-jsx"
     }

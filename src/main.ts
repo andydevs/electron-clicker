@@ -1,14 +1,11 @@
 /// <reference types="./types/main.d.ts"/>
 import { app, BrowserWindow } from 'electron'
+import squirrelStartup from 'electron-squirrel-startup'
 import { installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer'
 import path from 'node:path'
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (process.platform === 'win32') {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const started = require('electron-squirrel-startup')
-    if (started) app.quit()
-}
+if (squirrelStartup) app.quit()
 
 const installExtensions = () => {
     return installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS])
